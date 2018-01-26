@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>How transform HTML into PDF</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        
+        <div class="tools">
+            <button id="btn-html2canvas">导出为pdf文件</button>
+        </div>
+
+         <!--    <div id="content">
+                <div class="content-main">
+
+                    <h3>Hello World!</h3>
+                    <h3>Hello World!</h3>
+                    <h3>Hello World!</h3>
+                    <h3>Hello World!</h3>
+                    <h3>Hello World!</h3>
+                    <h3>Hello World!</h3>
+                    <h3>Hello World!</h3>
+                    <h3>Hello World!</h3>
+                    <h3>Hello World!</h3>
+                    <h3>Hello World!</h3>
+                    <h3>Hello World!</h3>
+                    <h3>Hello World!</h3>
+                    <h3>Hello World!</h3>
+
+                </div>
+
+            </div> -->
+ <div class="act_school" id="content">
+                                <table border="" cellspacing="0" cellpadding="0" id="table_one" style="background-color: #FFFFFF">
+                                    <thead>
+                                        <tr>
+                                        <th>学校</th>
+                                        <th>专业</th>
+                                        <th>2017分数线</th>
+                                        <th>弃冲稳保</th>
+                                    </tr>
+                                    </thead>
+                                    
+                                    <tbody class="list_body">
+                                        
+                                    </tbody>
+                                    
+                                </table>
+                             </div>
+
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script src="js/jspdf.debug.js"></script>
+        <script src="js/html2canvas.js"></script>
+        <script src="main.js"></script>
+
+    </body>
+<script>
+    $.ajax({  //上传分数名次
+                            type:"post",
+                            url:"http://www.bkbaodian.com/app/info/pageAll",
+                            dataType:'json',
+                            data:{
+                                nameNumber:11111,          //--名次
+                                batchNum:"第一批",                  //--批次 batchNum：(待定)
+                                collegeName:"数学",            //--查询关键字
+                                selectType:1,             // --（1，查弃   2，查冲   3，查稳   4，查保）
+                                pageNum:1,
+                                pageSize:100,
+                                uid:53,
+                                token:"b76ba649fb3f49febcc35c558a446db1"
+                            },
+                            headers:{contentType:"application/json"},
+                             success:function(data){
+                                console.log(data);
+                                if(data.status==1){
+                                    alert(data.msg);
+                                    return ;
+                                }
+                                var data=data.data;
+                                var htmls="";
+                                
+                                for (var i = 0; i < data.length; i++) {
+                                    htmls+='<tr>'+
+                                        '<td>'+data[i].collegeName+'</td>'+
+                                        '<td>'+data[i].majorName+'</td>'+
+                                        '<td>'+data[i].lastYearLine+'</td>'+
+                                        '<td>'+data[i].suggest+'</td>'+
+                                        '</tr>';
+                                }
+                                $(".list_body").html(htmls)
+                                }
+                            })
+</script>
+</html>
